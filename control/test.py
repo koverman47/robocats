@@ -37,7 +37,7 @@ def print_status(state, commands, desired, counter):
 
 if __name__ == "__main__":
     
-    controller = Controller(3, 0.8, 0, .75)
+    controller = Controller(3, 0.8, 0, .75) # Recursion Depth, P-Gain, I-Gain, D-Gain
     transform = controller.transform
 
     current_state, desired_state, commands = init_system()

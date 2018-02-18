@@ -8,8 +8,7 @@ Add Custom ROS packages to source:
 	source <path-to-workspace>/devel/setup.bash
 
 Adding new messages:
-	1. Add dependencies to package.xml
-	2. Add to CMakeLists
+	Add to CMakeLists under 'add_message_files'
 
 Dependencies to Install Separately:
 	1. ros-kinetic-keyboard

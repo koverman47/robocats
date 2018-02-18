@@ -1,0 +1,17 @@
+Motor Commands && Pins:
+	0: Port Forward ----------- PIN 2 
+	1: Starboard Forward ++++++ PIN 3
+	2: Fore Strafe ------------ PIN 4
+	3: Aft Strafe +++++++++++++ PIN 5
+	4: Port Fore Depth -------- PIN 6
+	5: Starboard Fore Depth +++ PIN 7
+	6: Port Aft Depth --------- PIN 8
+	7: Starboard Aft Depth ++++ PIN 9
+
+Pneumatics Pins:
+	Left Dropper: - PIN # 
+	Right Dropper: 	PIN #
+	Left Torpedo: - PIN #
+	Right Torpedo: 	PIN #
+	Arm: ---------- PIN #
+	Hand: +++++++++ PIN #

@@ -1,0 +1,21 @@
+ROS kinetic install:
+	sudo apt-get install ros-kinetic-desktop-full
+
+ROS package install
+	sudo apt-get install ros-kinetic-<package-name>
+
+Add Custom ROS packages to source:
+	source <path-to-workspace>/devel/setup.bash
+
+Adding new messages:
+	1. Add dependencies to package.xml
+	2. Add to CMakeLists
+
+Dependencies to Install Separately:
+	1. ros-kinetic-keyboard
+	2. ros-kinetic-rosserial
+	3. ros-kinetic-rosserial-arduino
+	4. ros-kinetic-robot-localization
+	5. ros-kinetic-cv-camera
+
+

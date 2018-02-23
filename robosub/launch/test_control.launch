@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<launch>
+	<node respawn="true" pkg="robosub2018" type="test_controller.py" name="test_controller"></node>
+	<node respawn="true" pkg="robosub2018" type="system_control.py" name="controller"></node>
+
+</launch>

@@ -43,7 +43,7 @@ class Controller():
 
     # Calculate PID and return transformation (desired forces -> motor commands)
     def get_motor_commands(self, estimated, destination):
-        self.errors.append(self.test_threshold(matrix.subtract_vector(destination, estimation)))
+        self.errors.append(self.test_threshold(matrix.subtract_vector(destination, estimated)))
 
         ed = self.get_derivative()
         if self.ki != 0:
@@ -107,9 +107,9 @@ class Controller():
 
 
     def pid(self, ep, ei, ed):
-        p = matrix_constant_multiply_vector(ep, self.kp)
-        i = matrix_constant_multiply_vector(ei, self.ki)
-        d = matrix_constant_multiply_vector(ed, self.kd)
+        p = matrix.constant_multiply_vector(ep, self.kp)
+        i = matrix.constant_multiply_vector(ei, self.ki)
+        d = matrix.constant_multiply_vector(ed, self.kd)
         return matrix.add_vector(p, matrix.add_vector(i, d))
 
 

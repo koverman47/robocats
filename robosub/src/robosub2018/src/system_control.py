@@ -1,8 +1,10 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 import rospy
+import sys
 from lib.controller import Controller
 from robosub2018.msg import MotorCommands, State
+from std_msgs.msg import String
 
 
 msg_state = None
@@ -11,19 +13,7 @@ msg_commands = None
 pub_commands = None
 
 def control():
-    pass
-
-
-def current_state_callback(msg):   
-    msg_state = msg
-
-
-def desired_state_callback(msg):
-    msg_desired = msg
-
-
-if __name__ == "__main__":
-    # control()
+    global msg_desired, msg_state
     
     pub_commands = rospy.Publisher('command/motor', MotorCommands, queue_size=8)
     rospy.init_node('controller')
@@ -37,12 +27,33 @@ if __name__ == "__main__":
 
     controller = Controller(3, 0.8, 0, 0.75)
 
+    #debugger = 'debug'
+    #pub_debug = rospy.Publisher(debugger, String, queue_size=4)
+
     rate = rospy.Rate(50)
     while not rospy.is_shutdown():
-        msg_commands.command = controller.get_motor_commands(msg_state.state, msg_desired.state)
+        #pub_debug.publish(msg_state)
+        if not msg_state or not msg_desired:
+            msg_commands.command = [0, 0, 0, 0, 0, 0, 0, 0]
+        else:
+            msg_commands.command = controller.get_motor_commands(msg_state.state, msg_desired.state)
         msg_commands.header.seq += 1
         msg_commands.header.stamp=rospy.get_rostime()
 
         pub_commands.publish(msg_commands)
-        
-    
+     
+
+
+def current_state_callback(msg):   
+    global msg_state
+    msg_state = msg
+
+
+def desired_state_callback(msg):
+    global msg_desired
+    msg_desired = msg
+
+
+if __name__ == "__main__":
+    control()
+       

@@ -55,6 +55,7 @@ add_message_files(
    MotorCommands.msg
    Depth.msg
    Hydrophone.msg
+   State.msg
 )
 
 ## Generate services in the 'srv' folder

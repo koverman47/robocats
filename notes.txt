@@ -18,3 +18,6 @@ Dependencies to Install Separately:
 	5. ros-kinetic-cv-camera
 
 
+Configuring .bashrc:
+    source ~/robocats/robosub/devel/setup.bash
+    GAZEBO_PLUGIN_PATH=$HOME/robocats/robosub/build:$GAZEBO_PLUGIN_PATH

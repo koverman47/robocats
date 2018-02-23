@@ -6,23 +6,21 @@ from scipy import integrate
 
 class Controller():
 
-    def __init__(self, recursion_depth = 1, kp = 1.0, ki = 0.1, kd = 0.6):
+    def __init__(self, recursion_depth = 1, kp = 1.0, ki = 0, kd = 0.6):
         self.errors = []
         self.kp = kp
         self.ki = ki
         self.kd = kd
-        self.threshold = 0.001 # Error Threshold: If error < threshold then let error = 0
+        self.threshold = 0.001
         self.max_recursion = recursion_depth
-        self.transform =    [[1, 1, 0, 0, 0, 0, 0, 0],
-                             [0, 0, 1, 1, 0, 0, 0, 0],
-                             [0, 0, 0, 0, 1, 1, 1, 1],
-                             [0, 0, 0, 0, 0.5, -0.5, 0.5, -0.5],
-                             [0, 0, 0, 0, -0.5, -0.5, 0.5, 0.5],
-                             [-0.5, 0.5, 0.5, -0.5, 0, 0, 0, 0]] # 6x8 transform: columns represent thrusters, rows: x, y, z, roll, pitch, yaw
+        self.transform =[   [1, 1, 0, 0, 0, 0, 0, 0],
+                            [0, 0, 1, 1, 0, 0, 0, 0],
+                            [0, 0, 0, 0, 1, 1, 1, 1],
+                            [0, 0, 0, 0, 0.5, -0.5, 0.5, -0.5],
+                            [0, 0, 0, 0, -0.25, -0.25, 0.25, 0.25],
+                            [-0.5, 0.5, 0.5, -0.5, 0, 0, 0, 0]  ]
         self.inverse = np.linalg.pinv(self.transform).tolist()
-        self.clean_inverse() # numpy moore-penrose is bugged
-        for r in self.inverse:
-            print(r)
+        self.clean_inverse() # numpy moore-penrose inverse is bugged
 
 
     def clean_inverse(self):
@@ -39,34 +37,26 @@ class Controller():
                 tested.append(0)
             else:
                 tested.append(v)
+        
         return tested
 
 
-    # Helper for visualizing errors at the command line
-    def print_mean_errors(self):
-        mean = 0
-        for i in range(len(self.errors[-1])):
-            mean += self.errors[-1][i]
-        print("MEAN ERROR: %s" % (mean / len(self.errors[-1])))
-        print("ERROR: %s" % self.errors[-1])
-
-    # Calculate pid and return transformation (desired forces -> motor commands)
+    # Calculate PID and return transformation (desired forces -> motor commands)
     def get_motor_commands(self, estimated, destination):
-        self.errors.append(self.test_threshold(matrix.subtract_vector(destination, estimated)))
-        #print("Errors: %s" % self.errors)
-        self.print_mean_errors()
+        self.errors.append(self.test_threshold(matrix.subtract_vector(destination, estimation)))
 
-        ei = self.get_integral()
         ed = self.get_derivative()
-    
+        if self.ki != 0:
+            ei = [0 for i in range(len(ed))]
+        else:
+            ei = self.get_integral()
+
         desired = self.pid(self.errors[-1], ei, ed)
-        print("\nDesired Forces: %s\n" % desired)
-        print("\n##########################################################################################################################################################\n\n")
 
         return self.calc_motor_commands(desired)
 
-    
-    # Transforms 6D forces vector into 8D Motor Commands vector
+
+    # Transforms 6d forces vector into 8d motor commands vector
     def calc_motor_commands(self, desired):
         commands = []
 
@@ -76,21 +66,21 @@ class Controller():
                 sigma += desired[c] * self.inverse[r][c] # Apply the transformation on the desired forces vector
             commands.append(sigma)
 
-        large = abs(max(commands, key=abs)) # Get max magnitude for scaling
+        large = abs(max(commands, key=abs)) # get max magnitude for scaling
         for c in range(len(commands)):
             if large != 0:
-                commands[c] = commands[c] / large # Scale down to [-1, 1]
+                commands[c] = commands[c] / large # scaled down to [-1, 1]
             else:
-                commands[c] = 0 # Don't divide by zero
+                commands[c] = 0 # don't divide by zero
 
         return commands
 
 
-    
+
     def get_derivative(self):
         derivative = matrix.recursive_vector_sum(self.errors, min(self.max_recursion, len(self.errors)))
-        time = 1.0 / self.max_recursion
-        
+        time = 1.0 / min(self.max_recursion, len(self.errors))
+
         for d in range(len(derivative)):
             if self.errors[-1][d] == 0:
                 derivative[d] = 0
@@ -101,6 +91,7 @@ class Controller():
     def get_integral(self):
         if len(self.errors) < self.max_recursion:
             return [0 for k in range(6)]
+
         data = [0 for m in range(self.max_recursion)]
         integral = []
         for i in range(len(self.errors[-1])):
@@ -111,18 +102,18 @@ class Controller():
         for i in range(len(integral)):
             if self.errors[-1][i] == 0:
                 integral[i] = 0
-        
+
         return integral
 
 
     def pid(self, ep, ei, ed):
-        p = matrix.constant_multiply_vector(ep, self.kp)
-        i = matrix.constant_multiply_vector(ei, self.ki)
-        d = matrix.constant_multiply_vector(ed, self.kd)
-        print("\n\nPID", p, i, d)
+        p = matrix_constant_multiply_vector(ep, self.kp)
+        i = matrix_constant_multiply_vector(ei, self.ki)
+        d = matrix_constant_multiply_vector(ed, self.kd)
         return matrix.add_vector(p, matrix.add_vector(i, d))
 
 
+    
 
 
 
@@ -131,4 +122,4 @@ class Controller():
 
 
 
-
+        

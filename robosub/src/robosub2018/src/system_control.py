@@ -27,8 +27,7 @@ def control():
 
     controller = Controller(3, 0.8, 0, 0.75)
 
-    #debugger = 'debug'
-    #pub_debug = rospy.Publisher(debugger, String, queue_size=4)
+    #pub_debug = rospy.Publisher(debug, String, queue_size=4)
 
     rate = rospy.Rate(50)
     while not rospy.is_shutdown():
@@ -38,7 +37,7 @@ def control():
         else:
             msg_commands.command = controller.get_motor_commands(msg_state.state, msg_desired.state)
         msg_commands.header.seq += 1
-        msg_commands.header.stamp=rospy.get_rostime()
+        msg_commands.header.stamp = rospy.get_rostime()
 
         pub_commands.publish(msg_commands)
      

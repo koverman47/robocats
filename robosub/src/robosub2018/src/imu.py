@@ -10,7 +10,7 @@ baud = 115200
 
 def imu():
     global ser
-    publisher = rospy.Publisher('/sensors/imu' Imu, queue_size=10)
+    publisher = rospy.Publisher('sensors/imu' Imu, queue_size=10)
     ser = None
 
     rospy.init_node('imu')

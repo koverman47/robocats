@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 import math, rospy, numpy as np
 from robosub2018.msg import State, Depth

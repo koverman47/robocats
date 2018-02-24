@@ -40,6 +40,7 @@ def control():
         msg_commands.header.stamp = rospy.get_rostime()
 
         pub_commands.publish(msg_commands)
+        rate.sleep()
      
 
 
@@ -54,5 +55,4 @@ def desired_state_callback(msg):
 
 
 if __name__ == "__main__":
-    control()
-       
+    control() 

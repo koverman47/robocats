@@ -3,7 +3,7 @@
 
 class Task():
 
-    def __init__(self, current, desired, color):
+    def __init__(self, current, desired, color=None):
         self.subtasks = []
         self.current = current
         self.desired = desired

@@ -6,4 +6,3 @@ logs/*
 *.stl
 *.pyc
 __pycache__/
-*.pyc

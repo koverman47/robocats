@@ -31,10 +31,12 @@ def estimate():
     state_msg.header.seq = 0
     state_msg.stamp = rospy.get_rostime()
 
-    ukf = UKF() # Don't forget Parameters
+    orientation = UKF()
+    acceleration = UKF() # Don't forget Parameters
 
     rate = rospy.Rate(50)
     while not rospy.is_shutdown():
+        rotation = orientation.get_estimate(imu_msg)
         state_msg.state = ukf.get_state_estimate(imu_msg, depth_msg)
         state_msg.header.seq += 1
         state_msg.header.stamp = rospy.get_rostime()

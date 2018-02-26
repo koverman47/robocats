@@ -18,8 +18,8 @@ class ColorObjectDetector:
         rospy.Subscriber("borbcat/state", State, self.receive_state)
 
         # Channels
-        self._image_pub = rospy.Publisher("object_detector/visual", Image, queue_size=10)
-        self._object_pub = rospy.Publisher("object_detector/objects", ObjectDetection, queue_size=10)
+        self._image_pub = rospy.Publisher("vision/image", Image, queue_size=10)
+        self._object_pub = rospy.Publisher("vision/detection", ObjectDetection, queue_size=10)
 
 
         # Misc

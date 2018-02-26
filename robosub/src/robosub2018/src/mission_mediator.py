@@ -2,7 +2,7 @@
 
 import rospy
 from lib.mission import Mission
-from robosub2018.msg import State, Detection
+from robosub2018.msg import State, ObjectDetection
 
 
 '''
@@ -21,7 +21,7 @@ def mediate():
     desired_publisher = rospy.Publisher('borbcat/desired', State, queue_size=1)
     rospy.init_node('captain')
 
-    rospy.Subscriber('vision/detection', Detection, detection_callback)
+    rospy.Subscriber('vision/detection', ObjectDetection, detection_callback)
     rospy.Subscriber('borbcat/state', State, current_state_callback)
 
     desired_msg = State()

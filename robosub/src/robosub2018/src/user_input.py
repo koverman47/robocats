@@ -53,6 +53,7 @@ key_mappings = {119:    {0: 1, 1: 1},   # w - forward
 
 
 def user_input(key, down):
+    
     key = int(key.code)
 
     if not down:
@@ -63,20 +64,24 @@ def user_input(key, down):
 
 
 def set_commands(key, power = 1):
+    global com_msg
+
     if key in key_mappings:
         for key, value in key_mappings[key].items():
             com_msg.commands[key] = value * power
 
 
 def key_down(key):
-    user_input(key, true)
+    user_input(key, True)
 
 
 def key_up(key):
-    user_input(key, false)
+    user_input(key, False)
 
 
 def send_commands():
+    global com_msg, com_pub
+
     com_msg.header.seq += 1
     com_msg.header.stamp = rospy.get_rostime()
     
@@ -85,6 +90,7 @@ def send_commands():
 
 
 def main():
+    global com_msg
 
     rospy.init_node('UserInput')
     rospy.Subscriber("keyboard/keydown", Key, key_down)

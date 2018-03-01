@@ -2,7 +2,7 @@
 
 import rospy, math
 from datetime import datetime # not used
-from keyboard.msg import Key
+from robosub2018.msg import Key
 from robosub2018.msg import MotorCommands as MC
 from std_msgs.msg import Bool # not used
 

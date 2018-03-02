@@ -10,13 +10,19 @@ Add Custom ROS packages to source:
 Adding new messages:
 	Add to CMakeLists under 'add_message_files'
 
-Dependencies to Install Separately:
-	1. ros-kinetic-keyboard
-	2. ros-kinetic-rosserial
-	3. ros-kinetic-rosserial-arduino
-	4. ros-kinetic-robot-localization
-	5. ros-kinetic-cv-camera
+ROS Dependencies to Install Separately:
+	- ros-kinetic-rosserial
+	- ros-kinetic-rosserial-arduino
+	- ros-kinetic-robot-localization
+	- ros-kinetic-cv-camera
 
+Python Packages:
+	- pyserial
+	- scipy
+	- numpy
+
+Additional Packages:
+	- ros-keyboard (github.com)
 
 Configuring .bashrc:
     source ~/robocats/robosub/devel/setup.bash

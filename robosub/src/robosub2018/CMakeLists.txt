@@ -58,6 +58,8 @@ add_message_files(
    ObjectDetection.msg
    State.msg
    Key.msg
+   Arm.msg
+   PneumaticCommand.msg
 )
 
 ## Generate services in the 'srv' folder

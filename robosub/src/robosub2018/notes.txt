@@ -9,9 +9,9 @@ Motor Commands && Pins:
 	7: Starboard Aft Depth ++++ PIN 9
 
 Pneumatics Pins:
-	Left Dropper: - PIN # 
-	Right Dropper: 	PIN #
-	Left Torpedo: - PIN #
-	Right Torpedo: 	PIN #
-	Arm: ---------- PIN #
-	Hand: +++++++++ PIN #
+	Left Dropper: - PIN 37 
+	Right Dropper: 	PIN 39
+	Left Torpedo: - PIN 41
+	Right Torpedo: 	PIN 43
+	Arm: ---------- PIN 33
+	Hand: +++++++++ PIN 35

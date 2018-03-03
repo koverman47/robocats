@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-import json
+import json, math, numpy, rospy
 from tasks import *
-from robosub2018.msg import State, Detection
+from robosub2018.msg import State, Detection, Arm
 
 class Mission():
 

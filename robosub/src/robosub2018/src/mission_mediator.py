@@ -2,7 +2,7 @@
 
 import rospy
 from lib.mission import Mission
-from robosub2018.msg import State, ObjectDetection
+from robosub2018.msg import State, ObjectDetection, Arm
 
 
 '''

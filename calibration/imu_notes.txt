@@ -1,0 +1,1 @@
+A representative at Sparton Navex said we simply need to feed the 3d calibration (.4th) file (via serial) to the IMU (AHRS-8 or GEDC-6). Then the calibration should begin from there.

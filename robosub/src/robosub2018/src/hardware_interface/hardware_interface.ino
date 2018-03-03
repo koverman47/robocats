@@ -75,24 +75,48 @@ int percentToThrottle(float t, int motor) {
 }
 
 
+// There may be a better way to do this ...
 void pneumaticCommandCallback(const robosub2018::PneumaticCommand& command) {
 	switch(command.valve) {
 		case 33:
-			// Send Commands
+			if(armDown) {
+				digitalWrite(armPin, HIGH); // Double check high/low
+			}
+			else {
+				digitalWrite(armPin, LOW);
+			}
 			armDown = !armDown;
 			armUpdate();
 			break;
 		case 35:
+			if(handOpen) {
+				digitalWrite(handPin, HIGH); // double check
+			}
+			else {
+				digitalWrite(handPin, LOW);
+			}
 			handOpen = !handOpen;
 			armUpdate();
 			break;
 		case 37:
+			digitalWrite(dropLeft, HIGH);
+			delay(1000);
+			digitalWrite(dropLeft, LOW);
 			break;
 		case 39:
+			digitalWrite(dropRight, HIGH);
+			delay(1000);
+			digitalWrite(dropRight, LOW);
 			break;
 		case 41:
+			digitalWrite(leftTorpedo, HIGH);
+			delay(1000);
+			digitalWrite(leftTorpedo, LOW);
 			break;
 		case 43:
+			digitalWrite(rightTorpedo, HIGH);
+			delay(1000);
+			digitalWrite(rightTorpedo, LOW);
 			break;
 		default:
 			// Probably log
@@ -156,7 +180,13 @@ void setup() {
 		motors[i].attach(motorPins[i]);
 		motors[i].writeMicroseconds(neutral);
 	}
-	delay(1000);
+	pinMode(armPin, OUTPUT);
+	pinMode(handPin, OUTPUT);
+	pinMode(dropLeft, OUTPUT);
+	pinMode(dropRight, OUTPUT);
+	pinMode(leftTorpedo, OUTPUT);
+	pinMode(rightTorpedo, OUTPUT);
+	//delay(1000);
 }
 
 

@@ -15,11 +15,11 @@ class ColorObjectDetector:
 
         #TODO: correct channel names
         rospy.Subscriber("sensors/camera_forward/image_raw", Image, self.receive_image)
-        rospy.Subscriber("state", State, self.receive_state)
+        rospy.Subscriber("borbcat/state", State, self.receive_state)
 
         # Channels
-        self._image_pub = rospy.Publisher("object_detector/visual", Image, queue_size=10)
-        self._object_pub = rospy.Publisher("object_detector/objects", ObjectDetection, queue_size=10)
+        self._image_pub = rospy.Publisher("vision/image", Image, queue_size=10)
+        self._object_pub = rospy.Publisher("vision/detection", ObjectDetection, queue_size=10)
 
 
         # Misc

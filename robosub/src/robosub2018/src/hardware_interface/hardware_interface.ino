@@ -3,11 +3,15 @@
 #include <ros.h>
 #include <robosub2018/Depth.h>
 #include <robosub2018/MotorCommands.h>
+#include <robosub2018/PneumaticCommand.h>
 #include <std_msgs/Header.h>
 
 ros::NodeHandle nh;
 robosub2018::Depth depthMsg;
+robosub2018::Arm armMsg;
+
 ros::Publisher pubDepth("sensors/depth", &depthMsg);
+ros::Publisher pubArm("borbcat/arm", &armMsg);
 
 const int numMotors = 8;
 const float maxThrust = 0.65
@@ -17,7 +21,13 @@ const int scale = 400;
 const float surfacePSI = 10.44;
 
 /***** Start Pin Definitions *****/
-const int depthPin;
+const int depthPin = 0; // A0
+const armPin = 33;
+const handPin = 35;
+const dropLeft = 37;
+const dropRight = 39;
+const leftTorpedo = 41;
+const rightTorpedo = 43;
 
 int motorPins[numMotors] = {
 	2, // Port Forward
@@ -29,6 +39,9 @@ int motorPins[numMotors] = {
 	8, // Aft Port Depth
 	9  // Aft Starboard Depth
 };
+
+bool armDown = false;
+bool handOpen = false;
 /***** End Pin Definitions *****/
 
 Servo motors[numMotors];
@@ -37,6 +50,7 @@ float directions[numMotors] = {1, 1, 1, 1, 1, 1, 1, 1};
 int motorCommands[numMotors] = {neutral, neutral, neutral, neutral, neutral, neutral, neutral, neutral};
 
 ros::Subscriber<robosub2018::MotorCommands> subMotorCommands("command/motor", &motorCommandCallback);
+ros::Subscriber<robosub2018::PneumaticCommands> subPneuCommand("command/pneumatics" &pneumaticCommandCallback);
 
 
 /***** Start Function Definitions *****/
@@ -58,6 +72,65 @@ void motorUpdate() {
 int percentToThrottle(float t, int motor) {
 	t = constrain(t, -1, 1);
 	return int(1500 + t * scale * maxThrust * directions[motor]);
+}
+
+
+// There may be a better way to do this ...
+void pneumaticCommandCallback(const robosub2018::PneumaticCommand& command) {
+	switch(command.valve) {
+		case 33:
+			if(armDown) {
+				digitalWrite(armPin, HIGH); // Double check high/low
+			}
+			else {
+				digitalWrite(armPin, LOW);
+			}
+			armDown = !armDown;
+			armUpdate();
+			break;
+		case 35:
+			if(handOpen) {
+				digitalWrite(handPin, HIGH); // double check
+			}
+			else {
+				digitalWrite(handPin, LOW);
+			}
+			handOpen = !handOpen;
+			armUpdate();
+			break;
+		case 37:
+			digitalWrite(dropLeft, HIGH);
+			delay(1000);
+			digitalWrite(dropLeft, LOW);
+			break;
+		case 39:
+			digitalWrite(dropRight, HIGH);
+			delay(1000);
+			digitalWrite(dropRight, LOW);
+			break;
+		case 41:
+			digitalWrite(leftTorpedo, HIGH);
+			delay(1000);
+			digitalWrite(leftTorpedo, LOW);
+			break;
+		case 43:
+			digitalWrite(rightTorpedo, HIGH);
+			delay(1000);
+			digitalWrite(rightTorpedo, LOW);
+			break;
+		default:
+			// Probably log
+
+	}	
+}
+
+
+void armUpdate() {
+	armMsg.header = getHeader(armMsg.header);
+	armMsg.armDown = armDown;
+	armMsg.handOpen = handOpen;
+
+	pubArm.publish(&armMsg);
 }
 
 
@@ -107,7 +180,13 @@ void setup() {
 		motors[i].attach(motorPins[i]);
 		motors[i].writeMicroseconds(neutral);
 	}
-	delay(1000);
+	pinMode(armPin, OUTPUT);
+	pinMode(handPin, OUTPUT);
+	pinMode(dropLeft, OUTPUT);
+	pinMode(dropRight, OUTPUT);
+	pinMode(leftTorpedo, OUTPUT);
+	pinMode(rightTorpedo, OUTPUT);
+	//delay(1000);
 }
 
 

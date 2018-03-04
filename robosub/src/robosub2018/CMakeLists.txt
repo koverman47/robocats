@@ -12,7 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   message_generation
-  # keyboard
+  #keyboard
   tf
 )
 
@@ -57,6 +57,9 @@ add_message_files(
    Hydrophone.msg
    ObjectDetection.msg
    State.msg
+   Key.msg
+   Arm.msg
+   PneumaticCommand.msg
 )
 
 ## Generate services in the 'srv' folder

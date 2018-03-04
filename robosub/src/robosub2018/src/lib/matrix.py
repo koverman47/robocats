@@ -43,8 +43,18 @@ def cross_product(a, b):
     pass
 
 
+# Naive Matrix multiplication
 def matrix_multiplication(a, b):
-    pass
+    c = []
+    for x in range(len(a)):
+        c_row = []
+        for y in range(len(a[x])):
+            sigma = 0
+            for z in range(len(b)):
+                sigma += a[x][y] * b[y][z]
+            c_row.append(sigma)
+        c.append(c_row)
+                
 
 
 def constant_multiply_vector(a, k):

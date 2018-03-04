@@ -25,7 +25,7 @@ def imu():
 
     try:
         ser = serial.Serial(port, baud)
-        flush()
+        ser.flush()
     except serial.SerialException:
         rospy.logerr("Error Connceting to IMU")
 

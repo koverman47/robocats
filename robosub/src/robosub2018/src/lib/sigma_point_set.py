@@ -24,7 +24,7 @@ class SigmaPTS():
 
     def get_chi(self, mu, cov):
         nlam = self.n * self.lam
-        inner_term = [matrix.constant_multiply_vector(nlam[i], cov[i]) for i in range(len(self.n))]
+        inner_term = [matrix.constant_multiply_vector(cov[i], nlam[i]) for i in range(len(self.n))]
         root_cov = linalg.sqrtm(inner_term)
 
         self.chi.append(mu)

@@ -34,6 +34,14 @@ def subtract_matrix(a, b):
 def inner_product(a, b):
     return sum(a[i] * b[i] for i in range(len(a)))
 
+def outer_product(a, b):
+    outer = []
+    for i in range(len(a)):
+        outer.append([])
+        for j in range(len(b)):
+            outer.[i].append(a[i] * b[j])
+    return outer
+
 
 def convolution(a, b):
     pass
@@ -60,8 +68,8 @@ def matrix_multiplication(a, b):
 def constant_multiply_vector(a, k):
     c = []
     for i in range(len(a)):
-        c.append(round(a[i] * k, 8))
-        #c.append(a[i] * k)
+        #c.append(round(a[i] * k, 8))
+        c.append(a[i] * k)
     return c
 
 

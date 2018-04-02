@@ -11,27 +11,10 @@
       <uri>model://sun</uri>
     </include>
 
-    <model name="box">
-      <pose>0 0 0.5 0 0 0</pose>
-      <link name="link">
-        <collision name="collision">
-          <geometry>
-            <box>
-              <size>1 1 1</size>
-            </box>
-          </geometry>
-        </collision>
+    <include>
+	<uri>model://robosub</uri>
+    </include>
 
-        <visual name="visual">
-          <geometry>
-            <box>
-              <size>1 1 1</size>
-            </box>
-          </geometry>
-        </visual>
-      </link>
-
-      <plugin name="motor_plugin" filename="libgazebo_robosub.so"/>
-    </model>        
+     
   </world>
 </sdf>

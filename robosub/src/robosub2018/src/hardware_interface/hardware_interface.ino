@@ -4,6 +4,7 @@
 #include <robosub2018/Depth.h>
 #include <robosub2018/MotorCommands.h>
 #include <robosub2018/PneumaticCommand.h>
+#include <robosub2018/Arm.h>
 #include <std_msgs/Header.h>
 
 ros::NodeHandle nh;

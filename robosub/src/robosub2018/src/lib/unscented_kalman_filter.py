@@ -21,8 +21,53 @@ class UKF():
         self.G = G   # state transition function
         self.H = H   # measurement transition function
         
-        self.lam = 1
+        self.lamb = 1
         self.alpha = 0.5
         self.beta = 2
 
-    def get_belief():
+
+    def get_belief(self, state_t_1, covariance_t_1, control, measurement):
+        chi_t_1 = SPT()
+        chi_t_1.calc_sigma_pts(state_t_1, covariance_t_1, self.alpha, self.beta, self.lamb)
+        chi_t_1.transform(self.G)
+
+        mu_bar, cov_bar = chi_t_1.reconstruct()
+
+        chi_bar = SPT()
+        chi_bar.calc_sigma_pts(mu_bar, cov_bar, self.alpha, self.beta, self.lamb)
+
+        zeta_bar = SPT() #TODO: Need deep copy of chi_bar
+        zeta_bar.transform(self.H)
+        
+        zeta_hat, zeta_hat_cov = zeta_bar.reconstruct()
+
+        cross_cov = self.get_cross_covariance()
+
+        gain = self.get_kalman_gain()
+
+        mu = self.get_mean_correction()
+        cov = self.get_covariance_correction()
+        return (mu, cov)
+
+
+    def get_cross_covariance(self, spt1, mean1, spt2, mean2):
+        pass
+
+
+    def get_kalman_gain(self, cross_cov, zeta_cov):
+        pass
+
+
+    def get_mean_correction(self, mu_bar, gain, measurement, zeta_mean):
+        pass
+
+
+    def get_covariance_correction(self, cov_bar, gain, zeta_cov):
+        pass
+
+
+
+
+
+
+

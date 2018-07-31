@@ -32,6 +32,7 @@ def estimate():
     state_msg.stamp = rospy.get_rostime()
 
     orientation = UKF()
+    # transform acceleration readings with respect to orientation
     acceleration = UKF() # Don't forget Parameters
 
     rate = rospy.Rate(50)

@@ -29,10 +29,10 @@ class UKF():
 
         self.sigma_pts.calc_sigma_pts(self.mu_bar, self.cov_bar)
 
-        prop = self.calc_g()
+        prop = self.calc_g() # prop - big_zeta_bar (check notes)
         zeta_bar = self.calc_zeta_estimate(prop)
 
-        st = self.calc_s(prop, zeta) # check on zeta instead of zeta bar
+        st = self.calc_s(prop, zeta_bar) # check on zeta instead of zeta bar
 
         cov_xz = self.calc_cov_xz(mu_bar, prop, zeta_bar)
 

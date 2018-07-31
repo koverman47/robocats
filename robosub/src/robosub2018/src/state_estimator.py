@@ -37,7 +37,7 @@ def estimate():
     rate = rospy.Rate(50)
     while not rospy.is_shutdown():
         rotation = orientation.get_estimate(imu_msg)
-        state_msg.state = ukf.get_state_estimate(imu_msg, depth_msg)
+        state_msg.state = acceleration.get_state_estimate(imu_msg, depth_msg)
         state_msg.header.seq += 1
         state_msg.header.stamp = rospy.get_rostime()
 

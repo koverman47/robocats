@@ -1,0 +1,3 @@
+[submodule "robosub/src/darknet"]
+	path = robosub/src/darknet
+	url = https://github.com/koverman47/darknet.git

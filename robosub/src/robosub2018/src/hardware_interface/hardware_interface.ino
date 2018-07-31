@@ -143,6 +143,8 @@ void sensorUpdate() {
 		surfacePSI = depthMsg.psi;
 	}
 
+	// 12.5 max voltage
+	// current is signal (depthPin)
 	depthMsg.depth = ((analogRead(depthPin) * 0.0048828125 - 1) * 12.5 - surfacePSI) * 0.13197839577;
 	pubDepth.publish(&depthMsg);
 }

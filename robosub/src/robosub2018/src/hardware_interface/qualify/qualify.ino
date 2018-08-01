@@ -22,11 +22,12 @@ float time;
 
 //PID Gains
 float kp = 0.5; // TODO: Tune
-float ki = 0.5;;
+float ki = 0.5;
 float kd = 0.5;
 
 
-float targetDepth = 1.5
+float targetDepth = 1.5;
+float command = 0.0;
 
 
 void setSurfacePSI() {
@@ -48,14 +49,14 @@ void calcDepthUpdate() {
 	depth = ((analogRead(depthPin) * 0.0048828125 - 1) * 12.5 - surfacePSI) * 0.13197839577;
 	// compute dt
 	float preverror = error;
-	error = depth - target_depth;
+	error = depth - targetDepth;
 	interror += error * dt;
-	dererror = (error - temp) * dt;
+	dererror = (error - preverror) * dt;
 }
 
 
 float depthPID() {
-	command = (error * kp) + (interror * dt * ki) + (dererror * kd)
+	command = (error * kp) + (interror * dt * ki) + (dererror * kd);
 	if(command > 1) {
 		command = 1;
 	}
@@ -68,13 +69,13 @@ float depthPID() {
 
 void setup() {
 	Serial.begin(9600);
-	servo.attach(pins);
+	//servo.attach(pins);
 	setSurfacePSI();
 	calcDepthUpdate();
 
 	int i;
 	for(i = 0; i < 8; i++) {
-		servo.attach(pins[i]);
+		servo[i].attach(pins[i]);
 		servo[i].writeMicroseconds(neutral);
 	}
 

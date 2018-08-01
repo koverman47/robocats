@@ -13,7 +13,7 @@ class Controller():
         self.kd = kd
         self.threshold = 0.001
         self.max_recursion = recursion_depth
-        self.transform =[   [1, 1, 0, 0, 0, 0, 0, 0],
+        self.transform = [  [1, 1, 0, 0, 0, 0, 0, 0],
                             [0, 0, 1, 1, 0, 0, 0, 0],
                             [0, 0, 0, 0, 1, 1, 1, 1],
                             [0, 0, 0, 0, 0.228092, -0.228092, 0.230630, -0.230632],

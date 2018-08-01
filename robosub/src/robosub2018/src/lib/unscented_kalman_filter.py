@@ -3,6 +3,7 @@
 import math
 import rospy
 import time
+import matrix
 import numpy as np
 
 from sigma_point_set import SigmaPTS as SPT
@@ -55,15 +56,16 @@ class UKF():
 
 
     def get_kalman_gain(self, cross_cov, zeta_cov):
-        pass
+        inv = np.linalg.pinv(zeta_cov).tolist()
+        return matrix.matrix_multiply(cross_cov, inv)
 
 
     def get_mean_correction(self, mu_bar, gain, measurement, zeta_mean):
-        pass
+        return add_matrix(mu_bar, matrix_multiplication(gain, matrix.subtract_vector(measurement, zeta_mean)))
 
 
     def get_covariance_correction(self, cov_bar, gain, zeta_cov):
-        pass
+        pass # Need transpose
 
 
 

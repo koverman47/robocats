@@ -4,7 +4,7 @@ Servo servo[8];
 int neutral = 1500;
 int down = 1600;
 int power = 1750;
-int scale = 400;
+int scale = 300;
 
 int pins[8] = {2, 3, 4, 5, 6, 7, 8, 9};
 int depthPin = 0; 

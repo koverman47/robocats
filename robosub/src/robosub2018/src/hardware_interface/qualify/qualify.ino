@@ -35,13 +35,13 @@ float dt = 0.0;
 float tim;
 
 //PID Gains
-float kp = 0.8; // TODO: Tune
-float ki = 0.2;
-float kd = 0.5;
+float kp = 0.16; // TODO: Tune
+float ki = 0.0;
+float kd = 0.1;
 
 
 //float targetDepth = -0.75;
-float target = 102;
+float target = 105;
 float command = 0.0;
 float measurement;
 
@@ -73,7 +73,7 @@ void sensePSI() {
 void calcUpdate() {
     measurement = analogRead(depthPin);
     int temp = millis();
-    dt = abs(temp - tim);
+    dt = abs(temp - tim) / 1000;
     tim = temp;
     float preverror = error;
     error = measurement - target;
@@ -85,10 +85,10 @@ void calcUpdate() {
 float depthPID() {
 	float p = (error * kp);
 	float i = (interror * dt * ki);
-    float d = (dererror * kd);
-    //Serial.println(p);
-    //Serial.println(i);
-    //Serial.println(d);
+  float d = (dererror * kd);
+  //Serial.println(p);
+  //Serial.println(i);
+  //Serial.println(d);
 	command = p + i + d;
 	if(command > 1) {
 		command = 1;
@@ -104,7 +104,7 @@ void setup() {
 	Serial.begin(9600);
 	//setSurfacePSI();
 	//calcDepthUpdate();
-    calcUpdate();
+  calcUpdate();
 
 	int i;
 	for(i = 0; i < 8; i++) {
@@ -125,9 +125,12 @@ void loop() {
 	command = depthPID();
 	down = command * scale + neutral;
 
-    //Serial.println(down);
-    //Serial.println(command);
-    //Serial.println(analogRead(depthPin));
+  /*Serial.print("Down: ");
+  Serial.println(down);
+  Serial.print("Command: ");
+  Serial.println(command);
+  Serial.print("Analog: ");
+  Serial.println(analogRead(depthPin));*/
 
 	//servo[0].writeMicroseconds(neutral + power);
 	//servo[1].writeMicroseconds(neutral - power);

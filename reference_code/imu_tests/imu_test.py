@@ -5,8 +5,8 @@
 import sys, math, time, serial, re, numpy as np
 
 
-# port = '/dev/tty.usbserial-FTHBZZLU' Kirby's Mac
-port = '/dev/ttyUSB0' # Intel Nuc
+port = '/dev/tty.usbserial-FTHBZZLU' #Kirby's Mac
+#port = '/dev/ttyUSB0' # Intel Nuc
 baud = 115200
 
 ser = serial.Serial(port, baud)

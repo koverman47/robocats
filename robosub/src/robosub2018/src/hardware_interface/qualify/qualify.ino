@@ -1,9 +1,24 @@
 #include <Servo.h>
 
+/*
+ * 2 - +
+ * 3 - -
+ * 4 - -
+ * 5 - -
+ * 6 - -
+ * 7 - +
+ * 8 - +
+ * 9 - -
+ * 
+ */
+
+
 Servo servo[8];
 int neutral = 1500;
-int down = 1600;
-int power = 1750;
+int scale = 350;
+
+int down = 250;
+int power = 250;
 int scale = 350;
 
 int pins[8] = {2, 3, 4, 5, 6, 7, 8, 9};
@@ -75,7 +90,7 @@ float depthPID() {
 
 void setup() {
 	Serial.begin(9600);
-	//servo.attach(pins);
+  delay(5000);
 	setSurfacePSI();
 	calcDepthUpdate();
 
@@ -85,11 +100,11 @@ void setup() {
 		servo[i].writeMicroseconds(neutral);
 	}
 
-	delay(1000);
-	servo[4].writeMicroseconds(down);
-	servo[5].writeMicroseconds(down);
-	servo[6].writeMicroseconds(down);
-	servo[7].writeMicroseconds(down);
+	delay(5000);
+	servo[4].writeMicroseconds(neutral - down);
+	servo[5].writeMicroseconds(neutral + down);
+	servo[6].writeMicroseconds(neutral + down);
+	servo[7].writeMicroseconds(neutral - down);
 	time = millis();
 }
 
@@ -102,10 +117,10 @@ void loop() {
     //Serial.println(command);
     //Serial.println(analogRead(depthPin));
 
-	//servo[0].writeMicroseconds(power);
-	//servo[1].writeMicroseconds(power);
-	servo[4].writeMicroseconds(down);
-	servo[5].writeMicroseconds(down);
-	servo[6].writeMicroseconds(down);
-	servo[7].writeMicroseconds(down);
+	//servo[0].writeMicroseconds(neutral + power);
+	//servo[1].writeMicroseconds(neutral - power);
+	servo[4].writeMicroseconds(neutral - down);
+	servo[5].writeMicroseconds(neutral + down);
+	servo[6].writeMicroseconds(neutral + down);
+	servo[7].writeMicroseconds(neutral - down);
 }

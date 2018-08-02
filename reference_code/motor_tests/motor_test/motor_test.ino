@@ -2,7 +2,7 @@
 
 Servo servo;
 int power = 1500;
-int pin = 2;
+int pin = 9;
 
 void setup() {
 	Serial.begin(9600);
@@ -18,5 +18,6 @@ void loop() {
 	Serial.println(power, DEC);
 	servo.writeMicroseconds(power);
 	delay(1000);
-	servo.writeMicroSeconds(1500);
+	servo.writeMicroseconds(1500);
 }
+

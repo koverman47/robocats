@@ -58,10 +58,10 @@ void calcDepthUpdate() {
 float depthPID() {
 	float p = (error * kp);
 	float i = (interror * dt * ki);
-  float d = (dererror * kd);
-  //Serial.println(p);
-  //Serial.println(i);
-  //Serial.println(d);
+    float d = (dererror * kd);
+    //Serial.println(p);
+    //Serial.println(i);
+    //Serial.println(d);
 	command = p + i + d;
 	if(command > 1) {
 		command = 1;
@@ -75,6 +75,7 @@ float depthPID() {
 
 void setup() {
 	Serial.begin(9600);
+	//servo.attach(pins);
 	setSurfacePSI();
 	calcDepthUpdate();
 
@@ -97,12 +98,12 @@ void loop() {
 	command = depthPID();
 	down = command * scale + neutral;
 
-  //Serial.println(down);
-  //Serial.println(command);
-  //Serial.println(analogRead(depthPin));
+    //Serial.println(down);
+    //Serial.println(command);
+    //Serial.println(analogRead(depthPin));
 
-	servo[0].writeMicroseconds(power);
-	servo[1].writeMicroseconds(power);
+	//servo[0].writeMicroseconds(power);
+	//servo[1].writeMicroseconds(power);
 	servo[4].writeMicroseconds(down);
 	servo[5].writeMicroseconds(down);
 	servo[6].writeMicroseconds(down);

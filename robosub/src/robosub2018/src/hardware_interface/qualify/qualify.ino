@@ -15,7 +15,6 @@
 
 Servo servo[8];
 int neutral = 1500;
-int scale = 350;
 
 int down = 250;
 int power = 250;

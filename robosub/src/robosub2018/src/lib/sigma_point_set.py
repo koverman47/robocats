@@ -1,4 +1,4 @@
-bb#!/usr/bin/env python
+bb#!/usr/bin/env pyth
 
 import math, matrix, numpy as np
 from scipy import linalg
@@ -20,7 +20,7 @@ class SigmaPTS():
 
     def get_chi(self, mu, cov, lamb):
         dim = len(mu)
-        nlam = dim * self.lamb
+        nlam = dim * lamb
         inner_term = [matrix.constant_multiply_vector(cov[i], nlam) for i in range(dim)]
         root_cov = linalg.sqrtm(inner_term)
 
@@ -35,10 +35,10 @@ class SigmaPTS():
     def get_weights(self, mu, cov, alpha, beta, lamb):
         dim = len(mu)
 
-        self.state_weights.append(self.lamb / (dim + self.lamb))
-        self.cov_weights.append(self.state_weights[0] + (1 - self.a**2 + self.b))
+        self.state_weights.append(lamb / (dim + lamb))
+        self.cov_weights.append(self.state_weights[0] + (1 - alpha**2 + beta))
 
-        val = 1 / (2 * (dim + self.lamb))
+        val = 1 / (2 * (dim + lamb))
         for i in range(2 * dim + 1):
             self.state_weights.append(val)
             self.cov_weights.append(val)

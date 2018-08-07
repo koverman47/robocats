@@ -1,4 +1,4 @@
-bb#!/usr/bin/env pyth
+#!/usr/bin/env python
 
 import math, matrix, numpy as np
 from scipy import linalg

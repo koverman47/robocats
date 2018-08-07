@@ -23,7 +23,6 @@ class SigmaPTS():
         nlam = dim * lamb
         inner_term = [matrix.constant_multiply_vector(cov[i], nlam) for i in range(dim)]
         root_cov = linalg.sqrtm(inner_term)
-
         self.chi.append(mu)
         for i in range(1, dim + 1):
             self.chi.append(matrix.add_vector(mu, root_cov[i]))
@@ -65,7 +64,7 @@ class SigmaPTS():
         outer = matrix.outer_product(temp, temp)
         covariance = []
         for j in range(len(self.chi)):
-            covariance.append(matrix.constant_multiply_vector(outer[i], self.cov_weights[j]))
+            covariance.append(matrix.constant_multiply_vector(outer[j], self.cov_weights[j]))
 
         return (mean, covariance)
 

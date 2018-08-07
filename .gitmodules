@@ -1,3 +1,9 @@
 [submodule "robosub/src/darknet"]
 	path = robosub/src/darknet
 	url = https://github.com/koverman47/darknet.git
+[submodule "robosub/src/robosub2018"]
+	path = robosub/src/robosub2018
+	url = https://github.com/koverman47/robosub2018.git
+[submodule "robosub/src/robosub2019"]
+	path = robosub/src/robosub2019
+	url = https://github.com/koverman47/robosub2019.git

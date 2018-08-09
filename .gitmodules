@@ -7,3 +7,6 @@
 [submodule "robosub/src/robosub2019"]
 	path = robosub/src/robosub2019
 	url = https://github.com/koverman47/robosub2019.git
+[submodule "robosub/src/gazebo_robosub"]
+	path = robosub/src/gazebo_robosub
+	url = https://github.com/koverman47/gazebo_robosub.git

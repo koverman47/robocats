@@ -48,9 +48,8 @@ class SPT():
         self.cov_weights = np.array(self.cov_weights)
 
 
-    def transform(self, fxn):
-        for i in range(len(self.chi)):
-            self.chi[i] = fxn(self.chi[i])
+    def transform(self, fxn, control=None):
+        self.chi = fxn(self.chi, control)
 
 
     def reconstruct(self):

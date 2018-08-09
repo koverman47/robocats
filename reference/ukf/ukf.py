@@ -19,10 +19,9 @@ class UKF():
 
 
     def get_belief(self, state_t_1, covariance_t_1, measurement, control):
-        #print("State", state_t_1)
         chi_t_1 = SPT()
         chi_t_1.calc_sigma_pts(state_t_1, covariance_t_1, self.alpha, self.beta, self.lamb)
-        chi_t_1.transform(self.G)
+        chi_t_1.transform(self.G, control)
 
         mu_bar, cov_bar = chi_t_1.reconstruct()
         cov_bar = cov_bar + self.R
@@ -42,7 +41,7 @@ class UKF():
 
         mu = self.get_mean_correction(mu_bar, gain, measurement, zeta_hat)
         cov = self.get_covariance_correction(cov_bar, gain, zeta_hat_cov)
-        #print("Mean", mu)
+
         return (mu, cov)
 
 
@@ -63,7 +62,7 @@ class UKF():
 
 
     def get_mean_correction(self, mu_bar, gain, measurement, zeta_mean):
-        return mu_bar + np.dot(gain, (measurement - zeta_mean))
+        return mu_bar + np.dot(np.asarray(gain), (measurement - zeta_mean))
 
 
     def get_covariance_correction(self, cov_bar, gain, zeta_cov):

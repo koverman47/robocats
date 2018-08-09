@@ -20,50 +20,57 @@ class SPT():
 
     def get_chi(self, mu, cov, lamb):
         dim = len(mu)
+        self.chi = [mu]
 
-        nlamb = dim * lamb
+        nlamb = dim + lamb
         inner_term = np.array([cov[i] * nlamb for i in range(dim)])
-        root_cov = linalg.sqrtm(inner_term)
+        root_cov = linalg.sqrtm(np.asmatrix(inner_term))
 
-        np.append(self.chi, mu)
-        for i in range(1, dim + 1):
-            np.append(self.chi, mu + root_cov[i])
-        for j in range(dim + 1, 2 * dim + 2):
-            np.append(self.chi, mu - root_cov[i])
+        for i in range(dim):
+            self.chi.append(mu + root_cov[i])
+        for j in range(dim):
+            self.chi.append(mu - root_cov[j])
+        self.chi = np.array(self.chi)
 
 
     def get_weights(self, mu, cov, alpha, beta, lamb):
         dim = len(mu)
 
-        np.append(self.state_weights, (lamb / (dim + lamb)))
-        np.append(self.cov_weights, (self.state_weights[0] + (1 - alpha**2 + beta)))
+        self.state_weights = [lamb / float(dim + lamb)]
+        self.cov_weights = [self.state_weights[0] + (1 - alpha**2 + beta)]
 
-        val = 1 / (2 * (dim + lamb))
-        for i in range(2 * dim + 1):
-            np.append(self.state_weights, val)
-            np.append(self.cov_weights, val)
+        val = 1 / float(2 * (dim + lamb))
+        for i in range(2 * dim):
+            self.state_weights.append(val)
+            self.cov_weights.append(val)
+
+        self.state_weights = np.array(self.state_weights)
+        self.cov_weights = np.array(self.cov_weights)
 
 
-    def transform(self, fxn):
-        for i in range(len(self.chi)):
-            self.chi[i] = fxn(self.chi[i])
+    def transform(self, fxn, control=None):
+        self.chi = fxn(self.chi, control)
 
 
     def reconstruct(self):
-        mean = np.array([0 for x in range(len(self.chi))])
-        for i in range(len(self.chi)):
-            mean[i] += np.inner(self.state_weights, self.chi[i])
+        tpose_chi = np.transpose(self.chi)
+        mean = np.array([0. for x in range(len(tpose_chi))])
+        for i in range(len(tpose_chi)):
+            mean[i] += np.inner(self.state_weights, tpose_chi[i])
+        mean = np.array(mean)
 
-        temp = np.array([])
+        temp = []
         for i in range(len(self.chi)):
-            np.append(temp, self.chi[i] - mean)
-        outer = np.outer(temp, temp)
+            temp.append(self.chi[i] - mean)
+        temp = np.array(temp)
+        outer = np.dot(np.transpose(temp), temp)
         
-        covariance = np.array([])
-        for j in range(len(self.chi)):
-            np.append(covariance, outer[j] * self.cov_weights[j])
-
-        return (mean, cov)
+        covariance = []
+        for j in range(len(tpose_chi)):
+            covariance.append(outer[j] * self.cov_weights[j])
+        covariance = np.array(covariance)
+        
+        return (mean, covariance)
 
     def clear(self):
         self.chi = None

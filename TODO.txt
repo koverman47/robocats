@@ -1,0 +1,8 @@
+Robocats
+    1. Submodule gazebo_robosub repository
+
+
+Robosub2019
+    1. Convert imu (2018) to cpp
+    2. Convert user_input to cpp
+    3. 

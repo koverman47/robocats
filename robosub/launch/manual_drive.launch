@@ -3,6 +3,7 @@
 <launch>
 	<!-- Thruster Inputs -->
 	<node respawn="true" pkg="robosub2018" type="user_input.py" name="userInput"></node>
+    <!--<node respawn="true" pkg="robosub2018" type="keyboard_node.cpp" name="keyboard"></node>-->
 	<node pkg="rosserial_python" type="serial_node.py" name="arduino_motors">
 		<param name="port" value="/dev/ttyACM0"/>
 		<param name="baud_rate" value="9600"/>

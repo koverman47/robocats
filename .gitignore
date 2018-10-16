@@ -1,9 +1,22 @@
+# ROS
 **.catkin_workspace
 devel/
 build/
 install/
 logs/*
-*.stl
+
+# Python
 *.pyc
 __pycache__/
+
+# Northtek
 *.4th
+
+# Latex
+*.aux
+*.log
+*.synctex.gz
+*.tex
+
+# Other
+*.stl

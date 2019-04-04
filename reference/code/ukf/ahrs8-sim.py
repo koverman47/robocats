@@ -5,6 +5,7 @@ from ukf import UKF
 import numpy.matlib
 import numpy as np
 import math
+import time
 
 
 ahrs8_noise = 0.000126
@@ -38,7 +39,7 @@ if __name__ == "__main__":
     ukf = UKF(R, Q, G, H)
 
    
-    for i in range(1, 11):
+    for i in range(1, 100):
         acceleration = np.array([gauss(true_acceleration[0], ahrs8_noise), gauss(true_acceleration[1], ahrs8_noise)])
         final_velocity = np.array([velocity[j] + (delta_t * acceleration[j]) for j in range(len(position))])
         #measurement = np.array([gauss(true_position[k], 0.1) for k in range(len(position))])
@@ -62,4 +63,5 @@ if __name__ == "__main__":
         print("Measurement Error: %s" % m_error)
         print("Measurement: %s" % measurement)
         print("Variance: %s\n\n" % variance)
+        time.sleep(0.5)
 
